@@ -25,16 +25,19 @@ async function startServer() {
     try {
       // Robust Google Sheet URL Parsing
       // E.g., https://docs.google.com/spreadsheets/d/1Y1mptmnYZqXvMQkXyWKyWKyFRtxKowCDEMoy_IRoT5nHyw/edit?gid=20#gid=20
-      const spreadsheetIdMatch = sheetUrl.match(/\/d\/([a-zA-Z0-9-_]{40,})\b/);
-      if (!spreadsheetIdMatch) {
+      let spreadsheetId = '';
+      const spreadsheetIdMatch = sheetUrl.match(/\/d\/([a-zA-Z0-9-_]+)/);
+      if (spreadsheetIdMatch) {
+         spreadsheetId = spreadsheetIdMatch[1];
+      } else if (/^[a-zA-Z0-9-_]{20,}$/.test(sheetUrl.trim())) {
+         spreadsheetId = sheetUrl.trim();
+      } else {
          return res.status(400).json({
            success: false,
            errorType: 'invalid_url',
            message: 'El enlace proporcionado no parece ser un enlace válido de Google Sheets. Asegúrate de incluir el ID del documento (debe empezar por /d/)',
          });
       }
-
-      const spreadsheetId = spreadsheetIdMatch[1];
       
       // Parse gid (worksheet tab ID)
       const gidMatch = sheetUrl.match(/gid=([0-9]+)/);

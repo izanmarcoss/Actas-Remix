@@ -45,10 +45,12 @@ export default function App() {
   // Sheet URL state
   const [sheetUrl, setSheetUrl] = useState<string>(() => {
     const cached = localStorage.getItem('sheet-active-url');
-    if (cached && cached.includes('WKyWKy')) {
-      return DEFAULT_SHEET_URL;
+    // Validate that the cached URL is present and matches a valid format before using it
+    const isValid = cached && (/\/d\/([a-zA-Z0-9-_]+)/.test(cached) || /^[a-zA-Z0-9-_]{20,}$/.test(cached.trim()));
+    if (isValid) {
+      return cached;
     }
-    return cached || DEFAULT_SHEET_URL;
+    return DEFAULT_SHEET_URL;
   });
 
   // Core Data States
