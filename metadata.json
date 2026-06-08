@@ -1,0 +1,8 @@
+{
+  "name": "Analisis Actas",
+  "description": "A modern and responsive dashboard to fetch, analyze, and visualize public Google Sheets dynamically with advanced charts, filtering, and export capabilities.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
